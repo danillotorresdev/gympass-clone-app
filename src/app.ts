@@ -6,13 +6,13 @@ import fastifyJwt from '@fastify/jwt'
 
 export const app = fastify()
 
-app.register(appRoutes, {
-  secret: env.JWT_SECRET,
-})
+app.register(appRoutes)
 // ORM - Object Relational Mapping
 // É uma forma de mapear os dados do banco de dados para objetos.
 
-app.register(fastifyJwt)
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+})
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
