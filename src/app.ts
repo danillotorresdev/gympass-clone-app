@@ -2,12 +2,17 @@ import fastify from 'fastify'
 import { appRoutes } from '@/http/routes'
 import { ZodError } from 'zod'
 import { env } from '@/env'
+import fastifyJwt from '@fastify/jwt'
 
 export const app = fastify()
 
-app.register(appRoutes)
+app.register(appRoutes, {
+  secret: env.JWT_SECRET,
+})
 // ORM - Object Relational Mapping
 // É uma forma de mapear os dados do banco de dados para objetos.
+
+app.register(fastifyJwt)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
